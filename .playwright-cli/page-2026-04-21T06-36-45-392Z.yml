@@ -1,0 +1,124 @@
+- generic [ref=e1]:
+  - link "コンテンツへとスキップする" [ref=e3] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e7]:
+    - generic [ref=e9]:
+      - generic:
+        - generic:
+          - generic:
+            - button "サイドバーを開く":
+              - img
+        - generic:
+          - generic:
+            - link "新しいチャット":
+              - /url: /
+              - generic:
+                - img
+              - generic: 新しいチャット
+          - generic:
+            - generic:
+              - generic:
+                - img
+              - generic: チャットを検索
+          - generic:
+            - link "画像":
+              - /url: /images
+              - generic:
+                - img
+              - generic: 画像
+        - generic:
+          - generic:
+            - button "プロファイルメニューを開く":
+              - generic:
+                - generic:
+                  - img
+      - generic [ref=e10]:
+        - heading "チャット履歴" [level=2] [ref=e11]
+        - navigation "チャット履歴" [ref=e12]:
+          - generic [ref=e15]:
+            - link "ホーム" [ref=e16] [cursor=pointer]:
+              - /url: /
+              - img [ref=e17]
+            - button "サイドバーを閉じる" [expanded] [ref=e20]:
+              - img [ref=e21]
+          - complementary [ref=e23]:
+            - list [ref=e24]:
+              - listitem [ref=e25]:
+                - link "新しいチャット" [ref=e26] [cursor=pointer]:
+                  - /url: /
+                  - img [ref=e28]
+                  - generic [ref=e31]: 新しいチャット
+              - listitem [ref=e32]:
+                - generic [ref=e33] [cursor=pointer]:
+                  - img [ref=e35]
+                  - generic [ref=e38]: チャットを検索
+          - link "画像" [ref=e39] [cursor=pointer]:
+            - /url: /images
+            - img [ref=e41]
+            - generic [ref=e44]: 画像
+          - generic [ref=e45]:
+            - link "アプリ" [ref=e46] [cursor=pointer]:
+              - /url: /apps
+              - img [ref=e48]
+              - generic [ref=e51]: アプリ
+            - generic [ref=e52] [cursor=pointer]:
+              - img [ref=e54]
+              - generic [ref=e57]: Deep research
+          - generic [ref=e59]:
+            - link "プランと料金を見る" [ref=e60] [cursor=pointer]:
+              - /url: https://openai.com/chatgpt/pricing/
+              - generic [ref=e61]:
+                - img [ref=e63]
+                - text: プランと料金を見る
+              - img [ref=e66]
+            - generic [ref=e68] [cursor=pointer]:
+              - img [ref=e70]
+              - text: 設定
+            - generic [ref=e72] [cursor=pointer]:
+              - generic [ref=e73]:
+                - img [ref=e75]
+                - generic [ref=e78]: ヘルプ
+              - img [ref=e80]
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - paragraph [ref=e84]: 自分に合った回答を得る
+              - paragraph [ref=e85]: ログインすると、保存済みチャットに基づく回答に加えて、画像作成やファイルのアップロードも利用できます。
+            - button "ログイン" [ref=e87] [cursor=pointer]:
+              - generic [ref=e88]: ログイン
+    - generic [ref=e90]:
+      - banner:
+        - button "モデルセレクター" [ref=e92] [cursor=pointer]:
+          - generic [ref=e93]: ChatGPT
+          - img [ref=e94]
+        - generic [ref=e100]:
+          - button "ログイン" [ref=e101] [cursor=pointer]:
+            - generic [ref=e103]: ログイン
+          - button "無料でサインアップ" [ref=e104] [cursor=pointer]:
+            - generic [ref=e105]: 無料でサインアップ
+      - main [ref=e106]:
+        - generic [ref=e109]:
+          - generic:
+            - generic:
+              - button:
+                - img
+          - generic [ref=e113]:
+            - generic [ref=e117]:
+              - button "ファイルの追加など" [ref=e120] [cursor=pointer]:
+                - img
+              - textbox "ChatGPT とチャットする" [active] [ref=e123]:
+                - /placeholder: ChatGPT にメッセージを送信する
+              - button "音声を開始する" [ref=e129] [cursor=pointer]:
+                - img [ref=e131]
+                - generic [ref=e133]: 音声
+            - button [ref=e134]
+            - button [ref=e135]
+          - generic [ref=e138]:
+            - text: AI チャットボットである ChatGPT にメッセージを送ると、
+            - link "規約" [ref=e139] [cursor=pointer]:
+              - /url: https://openai.com/terms
+            - text: に同意し、
+            - link "プライバシーポリシー" [ref=e140] [cursor=pointer]:
+              - /url: https://openai.com/privacy
+            - text: を読んだことになります。cookie の設定を参照してください。
+  - alert [ref=e141]
+  - status [ref=e142]

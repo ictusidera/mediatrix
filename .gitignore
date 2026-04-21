@@ -1,0 +1,8 @@
+.gotmp/
+.gotmp2/
+.verify/
+bin/
+data/
+*.exe
+*.test
+*.out

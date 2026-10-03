@@ -1,0 +1,35 @@
+name: C# binding
+on:
+  push:
+    paths: ['bindings/**', '.github/workflows/csharp.yml', 'internal/**', 'cmd/**', 'go.mod', 'go.sum']
+  pull_request:
+    paths: ['bindings/**', '.github/workflows/csharp.yml', 'internal/**', 'cmd/**', 'go.mod', 'go.sum']
+permissions:
+  contents: read
+jobs:
+  binding:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.7'
+          cache: true
+      - name: Build net462 DLL and sample; run contract tests
+        shell: pwsh
+        run: ./bindings/csharp/scripts/build.ps1 -RunTests
+      - name: Build real daemon
+        run: go build -o mediatrixd-test.exe ./cmd/mediatrixd
+      - name: Linux .NET8 host with net462 client DLL, real daemon and C# handler
+        if: runner.os == 'Linux'
+        run: python3 bindings/csharp/scripts/smoke-daemon.py --daemon ./mediatrixd-test.exe
+      - name: Windows .NET Framework, real daemon and C# handler
+        if: runner.os == 'Windows'
+        run: python bindings/csharp/scripts/smoke-daemon.py --daemon ./mediatrixd-test.exe --framework

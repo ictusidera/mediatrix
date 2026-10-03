@@ -61,6 +61,10 @@ python3 examples/python-handler.py
 - ファイルは upload により専用 content store に取り込み、SHA256 検証後にのみ提供。任意 remote path / TCP / UDP tunnel API はない
 - サービス登録、file ACL、identity は再起動で復元。DHT provider 情報は volatile な探索候補
 
+## 言語別バインディング
+
+[C# / .NET Framework 4.6.2用DLLとサンプル](bindings/csharp/README.md)を `bindings/csharp/` に用意しています。導入方法・非同期呼出し・ファイル転送・エラー/cancelの扱いは同README、言語別の入口は [bindings/README.md](bindings/README.md) を参照してください。Pythonは既存HTTP handlerサンプルの起動・登録方法を [bindings/python/README.md](bindings/python/README.md) にまとめています。
+
 ## 文書
 
 - [API と CLI、異言語 handler 契約](docs/api.md)

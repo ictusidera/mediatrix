@@ -1,0 +1,2 @@
+# Local execution evidence; do not commit generated logs.
+*.log

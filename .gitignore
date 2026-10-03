@@ -40,3 +40,9 @@ mediatrix-data/
 identity.key
 *.token
 __pycache__/
+
+# C# binding build products (release ZIPs are published separately)
+**/bin/
+**/obj/
+/bindings/csharp/artifacts/
+/bindings/csharp/tests/**/test-results*.log

@@ -3,6 +3,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net462</TargetFramework>
     <LangVersion>7.3</LangVersion>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <!-- Use the explicit reference package on every OS; avoid implicit lock-file differences. -->
+    <AutomaticallyUseReferenceAssemblyPackages>false</AutomaticallyUseReferenceAssemblyPackages>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>

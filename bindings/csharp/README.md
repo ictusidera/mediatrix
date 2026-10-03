@@ -128,7 +128,7 @@ client既定上限はJSON16MiB/file1GiB、optionsで引き下げ可能です。d
 
 ## ビルド・実行可能サンプル
 
-開発環境には.NET SDK 8（検証版8.0.425）またはこのSDK-style net462 projectをbuildできる互換SDKと、NuGet.orgへのアクセスが必要です。Microsoftの正式なnet462 reference assembliesをNuGetからrestoreするため、Linuxでもtargetを偽装せずcompileできます。
+開発環境には.NET SDK 8.0.4xx（検証版8.0.425）と、NuGet.orgへのアクセスが必要です。リポジトリのglobal.jsonは同feature bandの最新patchを選び、別major SDKの自動選択を防ぎます。Microsoftの正式なnet462 reference assembliesをNuGetからrestoreするため、Linuxでもtargetを偽装せずcompileできます。
 
 ```powershell
 dotnet restore bindings/csharp/samples/ConsoleDemo/ConsoleDemo.csproj --locked-mode

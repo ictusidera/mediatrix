@@ -1,6 +1,6 @@
 # C#バインディング検証記録
 
-実施日: 2026-10-03 UTC。Linux amd64 / Debian 13。対象は `Mediatrix.Client.dll` 0.2.0、target `.NETFramework,Version=v4.6.2`。元のdaemonは `rebuild/mediatrix` の `677144004581616c40bdea770177f76cbd7f0dbf` と同じsource treeを使用しました。DLL/バインディング変更はこの記録時点でremoteへpushしていません。
+実施日: 2026-10-03 UTC。Linux amd64 / Debian 13。対象は `Mediatrix.Client.dll` 0.2.0、target `.NETFramework,Version=v4.6.2`。元のdaemonは `rebuild/mediatrix` の `677144004581616c40bdea770177f76cbd7f0dbf` と同じsource treeを使用しました。初回ローカル検証後に `bindings/csharp` branchへ公開しました。下記に公開後のCI状況を追記します。
 
 ## 実施して合格
 
@@ -21,7 +21,7 @@ contract testsは各caseを名前付きで出力します。URL/token/JSON/型sc
 DLL SHA-256:
 
 ```text
-e100c7c169e80ff412c7de9aa3ca4ac1c7e93f3b419247b58f9e3480ee212593
+2b337642f5aa78945ca991e096f0d4b3b2037fc6ee48396585041961d11d013f
 ```
 
 .NET 8 harnessは同じclient DLLを使用しますが、Newtonsoftはhost互換のnet6.0 assetを選びます。Windows配布用のnet45 assetをLinux .NET8へ載せたときのSystem.Security.Permissions不足を、DLLのWindows互換性合格/失敗と取り違えていません。
@@ -51,3 +51,9 @@ python3 bindings/csharp/scripts/smoke-daemon.py --daemon ./mediatrixd
 この環境ではMSBuildのparallel worker/serverが一部の実行でwarning/error無しの失敗になりました。`-m:1 /p:UseSharedCompilation=false` または `--disable-build-servers -m:1` で再現可能にcompileしています。runtime/code failureとして扱っていません。
 
 Windowsでは `scripts/build.ps1 -RunTests` がnet462 EXEを実行し、`smoke-daemon.py --framework` が.NET Framework上でC# sampleを実行します。詳細は [README](README.md) と [tests README](tests/Mediatrix.Client.Tests/README.md) を参照してください。
+
+## 公開後のCI（更新中）
+
+最初の公開commit `51561d62beeef0b3ea153a8fa3429c3fdc2cefd8` で、[Go Linux/Windows CI](https://github.com/ictusidera/mediatrix/actions/runs/37124952557)は合格。C#のLinux build/contract/smokeも合格しましたが、Windowsはテスト実行前のNuGet locked restoreでOS固有の暗黙package/RID差分を検出して失敗しました。
+
+修正ではSDK feature bandをglobal.jsonで指定し、AnyCPUと明示reference packageを全OSで統一、lockを再生成しました。locked restore、両target build、167 contract cases、実daemon込み168 casesとC# sample smokeをLinuxで再実行し合格しています。Windows実行は修正版のCIで確認中であり、まだ合格とは記載しません。DLLのruntime API/source logicは変更していません。

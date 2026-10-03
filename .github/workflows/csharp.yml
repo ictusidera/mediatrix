@@ -1,9 +1,9 @@
 name: C# binding
 on:
   push:
-    paths: ['bindings/**', '.github/workflows/csharp.yml', 'internal/**', 'cmd/**', 'go.mod', 'go.sum']
+    paths: ['bindings/**', 'global.json', '.github/workflows/csharp.yml', 'internal/**', 'cmd/**', 'go.mod', 'go.sum']
   pull_request:
-    paths: ['bindings/**', '.github/workflows/csharp.yml', 'internal/**', 'cmd/**', 'go.mod', 'go.sum']
+    paths: ['bindings/**', 'global.json', '.github/workflows/csharp.yml', 'internal/**', 'cmd/**', 'go.mod', 'go.sum']
 permissions:
   contents: read
 jobs:
@@ -22,6 +22,10 @@ jobs:
         with:
           go-version: '1.26.7'
           cache: true
+      - name: Record installed .NET Framework runtime
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full' | Select-Object Version, Release
       - name: Build net462 DLL and sample; run contract tests
         shell: pwsh
         run: ./bindings/csharp/scripts/build.ps1 -RunTests

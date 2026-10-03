@@ -86,6 +86,7 @@ namespace Mediatrix.Client.Tests
                     string first = await ReadLine(stream, stop.Token).ConfigureAwait(false);
                     if (first == null) return;
                     string[] words = first.Split(' ');
+                    if (words.Length < 2) throw new IOException("Incomplete request line.");
                     var request = new Request { Method = words[0], Target = words[1], Headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) };
                     string line;
                     while (!string.IsNullOrEmpty(line = await ReadLine(stream, stop.Token).ConfigureAwait(false)))
@@ -103,6 +104,8 @@ namespace Mediatrix.Client.Tests
                             while (true)
                             {
                                 string sizeLine = await ReadLine(stream, stop.Token).ConfigureAwait(false);
+                                // Upload cancellation can close the socket before the next chunk line.
+                                if (sizeLine == null) throw new IOException("Unexpected request EOF before chunk size.");
                                 int size = int.Parse(sizeLine.Split(';')[0], NumberStyles.HexNumber, CultureInfo.InvariantCulture);
                                 if (size == 0)
                                 {

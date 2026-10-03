@@ -1,6 +1,6 @@
 # C#バインディング検証記録
 
-実施日: 2026-10-03 UTC。Linux amd64 / Debian 13。対象は `Mediatrix.Client.dll` 0.2.0、target `.NETFramework,Version=v4.6.2`。元のdaemonは `rebuild/mediatrix` の `677144004581616c40bdea770177f76cbd7f0dbf` と同じsource treeを使用しました。初回ローカル検証後に `bindings/csharp` branchへ公開しました。下記に公開後のCI状況を追記します。
+実施日: 2026-10-03 UTC。Linux amd64 / Debian 13。対象は `Mediatrix.Client.dll` 0.2.0、target `.NETFramework,Version=v4.6.2`。元のdaemonは `rebuild/mediatrix` の `677144004581616c40bdea770177f76cbd7f0dbf` と同じsource treeを使用しました。初回ローカル検証後に `bindings/csharp` branchへ公開しました。公開後のWindows/Linux CIも合格し、結果を下記に追記しています。
 
 ## 実施して合格
 
@@ -28,9 +28,8 @@ DLL SHA-256:
 
 ## 実施していないこと
 
-- Windows/.NET Framework 4.6.2（または後継4.x）でDLL/console/test harnessを実行すること
-- Windows HttpListener URL reservation、NTFS ACL、WinForms/WPF実画面での試験
-- 新C# workflowのGitHub Actions実行。workflow定義追加は合格を意味しない
+- .NET Framework **4.6.2そのもの**がインストールされた環境での実行。net462参照でのcompileとWindows/.NET Framework 4.8.1での実行は確認済み
+- 利用者PCでのHttpListener URL reservation設定、NTFS ACL、WinForms/WPF実画面での試験（CIのWindows C# HttpListener sampleは動作確認済み）
 - C#クライアント自体による実WAN/NAT/relay/複数地域、長期負荷、電源断耐久性試験
 - batchファイルAPI、1stream複数file framing。今回の対象外
 
@@ -52,8 +51,17 @@ python3 bindings/csharp/scripts/smoke-daemon.py --daemon ./mediatrixd
 
 Windowsでは `scripts/build.ps1 -RunTests` がnet462 EXEを実行し、`smoke-daemon.py --framework` が.NET Framework上でC# sampleを実行します。詳細は [README](README.md) と [tests README](tests/Mediatrix.Client.Tests/README.md) を参照してください。
 
-## 公開後のCI（更新中）
+## 公開後のWindows / Linux CI: 合格
 
-最初の公開commit `51561d62beeef0b3ea153a8fa3429c3fdc2cefd8` で、[Go Linux/Windows CI](https://github.com/ictusidera/mediatrix/actions/runs/37124952557)は合格。C#のLinux build/contract/smokeも合格しましたが、Windowsはテスト実行前のNuGet locked restoreでOS固有の暗黙package/RID差分を検出して失敗しました。
+検証した実装commit: [`e06a41a33c20fa8e8fc2332af2119247e1c9581f`](https://github.com/ictusidera/mediatrix/commit/e06a41a33c20fa8e8fc2332af2119247e1c9581f)。
 
-修正ではSDK feature bandをglobal.jsonで指定し、AnyCPUと明示reference packageを全OSで統一、lockを再生成しました。locked restore、両target build、167 contract cases、実daemon込み168 casesとC# sample smokeをLinuxで再実行し合格しています。Windows実行は修正版のCIで確認中であり、まだ合格とは記載しません。DLLのruntime API/source logicは変更していません。
+- [C# binding CI](https://github.com/ictusidera/mediatrix/actions/runs/37125451025): Windows/Linuxの両jobがsuccess
+- [Go daemon CI](https://github.com/ictusidera/mediatrix/actions/runs/37125451014): Windows/Linuxの両jobがsuccess。Linux race/2-daemon Python smokeも合格
+- Windows Server 2025 runner: registry `Version=4.8.09221` / `Release=533509`、.NET Framework **4.8.1**。バージョン対応は[Microsoftの判定資料](https://learn.microsoft.com/en-us/dotnet/framework/install/how-to-determine-which-versions-are-installed)による
+- Windowsでnet462 client DLL＋配布と同じnet45 Newtonsoft assetを実ロードし、**167 / 167 contract cases**が合格
+- 同Windows環境で実Go daemonとの結合を含む **168 / 168 cases**、C# handlerのRPC42、262,404-byte binary import/ACL/fetch/検証付きdownloadが合格
+- Linuxは引き続き.NET8 host＋net462 client DLL＋host互換Newtonsoft assetで同試験に合格
+
+.NET Framework 4.8.1での成功を、4.6.2 runtimeそのものの実行確認とは呼びません。ターゲットの4.6.2互換性は正式なreference assembliesによるcompileで確認しています。
+
+初回Windows CIでは、暗黙reference packageとOS別RIDによるlocked restore不一致を発見し、SDK feature band/AnyCPU/明示reference packageを統一して修正しました。次の実行で見つかったテストfixtureの途中切断chunk-size EOF処理も修正しました。SDKのruntime API/source logicを変えず、最終commitの全jobが合格しています。既知DHT脆弱性の解決や脆弱性scanのcleanを示すものではありません。

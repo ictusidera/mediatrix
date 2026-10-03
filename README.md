@@ -72,4 +72,4 @@ python3 examples/python-handler.py
 - [設定・relay・復旧・セキュリティ・既知制限](docs/operations.md)
 - [実行済み検証と未検証範囲](docs/verification.md)
 
-実インターネットの NAT / firewall / 複数地域配置、Windows runtime、長期負荷運用はこの環境では未検証です。macOS/iOS は今後の候補であり、iOS の常時バックグラウンド server を保証しません。
+実インターネットの NAT / firewall / 複数地域配置、長期負荷運用は未検証です。Windows / Linux上のC# binding・実daemon結合試験結果は [C#検証記録](bindings/csharp/VERIFICATION.md) を参照してください。macOS/iOS は今後の候補であり、iOS の常時バックグラウンド server を保証しません。

@@ -175,7 +175,7 @@ dotnet build bindings/csharp/tests/Mediatrix.Client.Tests/Mediatrix.Client.Tests
 dotnet run --project bindings/csharp/tests/Mediatrix.Client.Tests -c Release -f net8.0 --no-build
 ```
 
-.NET8 harnessはNewtonsoftの.NET8互換assetを選択します。Windows配布のnet45依存と同一runtime構成ではなく、Windows/net462実行試験の代用ではありません。Windows/LinuxのCI workflowも用意していますが、remoteで実行していない状態を合格扱いしません。
+.NET8 harnessはNewtonsoftの.NET8互換assetを選択します。Windows配布のnet45依存と同一runtime構成ではなく、Windows/net462実行試験の代用ではありません。GitHub ActionsのWindows/.NET Framework 4.8.1とLinux/.NET8でbuild・contract・実daemon/sample試験が合格しています。4.6.2 runtimeそのものの実行とは区別し、正確な対象commitと結果は検証記録へ記載しています。
 
 実daemon＋C# handler＋binary fileのsmoke試験は `python3 bindings/csharp/scripts/smoke-daemon.py --daemon /absolute/path/to/mediatrixd`（Linux）、Windowsでは `python ... --daemon C:\path\mediatrixd.exe --framework` です。事前にsample/test harnessをRelease buildし、handler port49080を空けてください。temporary data/tokenは試験の終了時に削除されます。
 

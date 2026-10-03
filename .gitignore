@@ -30,3 +30,13 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# Local daemon secrets/state and build outputs
+/mediatrix
+/mediatrixd
+/bin/
+/dist/
+mediatrix-data/
+identity.key
+*.token
+__pycache__/

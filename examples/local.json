@@ -1,0 +1,19 @@
+{
+  "data_dir": "./mediatrix-data",
+  "api_addr": "127.0.0.1:47832",
+  "network": "my-private-network",
+  "listen": ["/ip4/0.0.0.0/tcp/0", "/ip4/0.0.0.0/udp/0/quic-v1"],
+  "allowed_peers": [],
+  "bootstrap": [],
+  "relays": [],
+  "relay_service": false,
+  "dht_server": false,
+  "limits": {
+    "max_file_bytes": 67108864,
+    "max_store_bytes": 1073741824,
+    "max_json_bytes": 1048576,
+    "max_concurrent": 16,
+    "timeout_seconds": 30,
+    "max_connections": 64
+  }
+}

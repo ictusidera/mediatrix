@@ -1,0 +1,28 @@
+name: verify
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.7'
+          cache: true
+      - run: go vet ./...
+      - run: go test -count=1 ./...
+      - run: go build ./cmd/mediatrix ./cmd/mediatrixd
+      - name: Race tests (Linux)
+        if: runner.os == 'Linux'
+        run: go test -race -count=1 ./...
+      - name: Two-daemon Python interoperability (Linux)
+        if: runner.os == 'Linux'
+        run: bash examples/smoke-two-nodes.sh
